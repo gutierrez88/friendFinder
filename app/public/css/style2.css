@@ -1,0 +1,13 @@
+html, body {
+    height: 100%;
+}
+
+body{
+    min-height: 100%;
+    background-color: black;
+    background-image: url(../images/surveyback6.jpeg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+};

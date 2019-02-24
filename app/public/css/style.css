@@ -1,0 +1,13 @@
+html, body {
+    height: 100%;
+}
+
+body{
+    min-height: 100%;
+    background-color: black;
+    background-image: url(../images/friends.jpg);
+    background-position: 65% 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+};
