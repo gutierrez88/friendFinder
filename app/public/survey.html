@@ -149,22 +149,20 @@
             </div>
         </form>
 
-        
-
-        <div class="p-4 text-center" id="resultsDiv" style="overflow: auto;">
-            <h3 id="results"></h3>
-            <img id="friendImg" src="" class="img-responsive p-3" style="max-height: 600px;"><br>
-            <button id="again" type="submit" class="btn btn-secondary mb-2 w-25">Try Again</button>
-        </div>
-
-
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-lg modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body" id="body">
+                        <div class="p-4 text-center" id="resultsDiv" style="overflow: auto;">
+                            <h3 id="results"></h3>
+                            <img id="friendImg" src="" class="img-responsive p-3" style="max-height: 600px;"><br>
+                        </div>
+                        <div id="wrong">
+                            <p>You are missing either your name or URL for the picture! Please fill them in so we can find you a new friend.</p>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="again" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -183,13 +181,13 @@
 
     <script type="text/javascript">
         $("#modalShow").hide();
-        $("#resultsDiv").hide();
-
+        
         $("#submit").on("click", function () {
             event.preventDefault();
 
             if ($("#name").val().trim() == "" || $("#photoURL").val().trim() == "") {
-                $("#body").append("<p>You are missing your name or URL for the picture! Please fill them in so we can find you a new friend.</p>")
+                $("#resultsDiv").hide();
+                $("#wrong").show();
                 $('#myModal').modal('show');
             } else {
                 var newPerson = {
@@ -212,19 +210,19 @@
                 $.post("/api/friends", newPerson)
                     .then(function (data) {
                         console.log(data);
-                        $("form").hide();
                         $("#resultsDiv").show();
-                        $("#title").text("Results")
+                        $("#wrong").hide();
                         var src = data.picture;
                         $("#friendImg").attr("src", src)
                         $("#results").text("Your match is " + data.Name + "! You had a matching Score of " + data.matchScore + "!");
+                        $('#myModal').modal('show');
                     });
+
+                $("form").trigger("reset");
             };
         });
 
         $("#again").on("click", function() {
-            $("form").trigger("reset");
-            $("form").show();
             $("#resultsDiv").hide();
             $("#title").text("Survay Questions")
         });
